@@ -2,8 +2,15 @@
 
 {% block body %}
 
-{{ form(form) }}
+{{ form_start(form) }}
 
- <button type="submit" class="btn">Ajouter</button>
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.category) }}
+
+<button type="submit">Valider</button>
+
+
+{{ form_end(form) }}
 
 {% endblock %}

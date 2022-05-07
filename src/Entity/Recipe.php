@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,20 +38,9 @@ class Recipe
     private $date;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Picture::class, inversedBy="recipes")
-     */
-    private $picture;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="recipes")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="recipes",cascade={"persist"})
      */
     private $category;
-
-    public function __construct()
-    {
-        $this->picture = new ArrayCollection();
-        $this->category = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -108,50 +95,14 @@ class Recipe
         return $this;
     }
 
-    /**
-     * @return Collection<int, Picture>
-     */
-    public function getPicture(): Collection
-    {
-        return $this->picture;
-    }
-
-    public function addPicture(Picture $picture): self
-    {
-        if (!$this->picture->contains($picture)) {
-            $this->picture[] = $picture;
-        }
-
-        return $this;
-    }
-
-    public function removePicture(Picture $picture): self
-    {
-        $this->picture->removeElement($picture);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategory(): Collection
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function addCategory(Category $category): self
+    public function setCategory(?Category $category): self
     {
-        if (!$this->category->contains($category)) {
-            $this->category[] = $category;
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): self
-    {
-        $this->category->removeElement($category);
+        $this->category = $category;
 
         return $this;
     }

@@ -25,7 +25,7 @@ class Category
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Recipe::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="category")
      */
     private $recipes;
 
@@ -63,7 +63,7 @@ class Category
     {
         if (!$this->recipes->contains($recipe)) {
             $this->recipes[] = $recipe;
-            $recipe->addCategory($this);
+            $recipe->setCategory($this);
         }
 
         return $this;
@@ -72,9 +72,18 @@ class Category
     public function removeRecipe(Recipe $recipe): self
     {
         if ($this->recipes->removeElement($recipe)) {
-            $recipe->removeCategory($this);
+            // set the owning side to null (unless already changed)
+            if ($recipe->getCategory() === $this) {
+                $recipe->setCategory(null);
+            }
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+
+        return $this->name;
     }
 }
