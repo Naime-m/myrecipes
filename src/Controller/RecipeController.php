@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class RecipeController extends AbstractController
 {
     /**
-     * @Route("/recipes", name="recipes")
+     * @Route("/", name="recipes")
      */
     public function home(RecipeRepository $recipeRepository)
     {
@@ -26,6 +26,16 @@ class RecipeController extends AbstractController
                 'recipes' => $recipes,
             ]
         );
+    }
+
+    /**
+     * @Route("/recipe/{id}", name="recipe")
+     */
+    public function show(Recipe $recipe)
+    {
+        return $this->render('recipe/show.html.twig', [
+            'recipe' => $recipe,
+        ]);
     }
 
     /**
@@ -49,7 +59,7 @@ class RecipeController extends AbstractController
 
             $this->addFlash('success', 'La recette a été bien été ajoutée.');
 
-            return $this->redirectToRoute('recipe');
+            return $this->redirectToRoute('recipes');
         }
 
         return $this->renderForm(

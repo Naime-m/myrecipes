@@ -8,7 +8,12 @@
 
 <h1>{{recipe.title}}</h1>
 
-<p>{{recipe.content}}</p>
+<p>le {{recipe.date | date('d/m/Y')}} à {{recipe.date | date('H:i')}} dans la catégorie {{recipe.category}}</p> 
+
+<p>{{recipe.content | slice(0,35)}}
+[...] </br>
+<a href="{{path('recipe', {'id': recipe.id}) }}" class="btn btn-primary">Voir la recette</a>
+</p>
 
 {% endfor %}
 
