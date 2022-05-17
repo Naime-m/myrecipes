@@ -28,16 +28,27 @@
           <a class="nav-link active" href="{{ path('recipes') }}">Mes recettes
             <span class="visually-hidden">(current)</span>
           </a>
+          {% if is_granted ('ROLE_USER')%}
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ path('create') }}">Ajouter</a>
         </li>
+        {% endif %}
+        {% if is_granted ('ROLE_USER') == false %}
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+        <a class="nav-link" href="{{ path('register') }}">S'inscrire</a>
         </li>
+        {% endif %}
+        {% if is_granted ('ROLE_USER') == false %}
         <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" href="{{ path('login') }}">Se connecter</a>
         </li>
+        {% endif %}
+        {% if is_granted ('ROLE_USER') %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>
