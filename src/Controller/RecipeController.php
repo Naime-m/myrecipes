@@ -15,9 +15,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class RecipeController extends AbstractController
 {
     /**
-     * @Route("/", name="recipes")
+     * @Route("/recipes", name="recipes")
      */
-    public function home(RecipeRepository $recipeRepository)
+    public function recipes(RecipeRepository $recipeRepository)
     {
         $recipes = $recipeRepository->findAll();
 
@@ -36,6 +36,27 @@ class RecipeController extends AbstractController
         return $this->render('recipe/show.html.twig', [
             'recipe' => $recipe,
         ]);
+    }
+
+    /**
+     * @Route("/recipe/{id}/edit", name="edit")
+     */
+    public function edit(ManagerRegistry $doctrine, Request $request, Recipe $recipe)
+    {
+        $form = $this->createForm(RecipeType::class, $recipe);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $doctrine->getManager();
+            $entityManager->flush();
+
+            return $this->redirectToRoute('recipes');
+        }
+
+        return $this->renderForm(
+            'recipe/edit.html.twig', [
+                'form' => $form,
+            ]);
     }
 
     /**
@@ -65,6 +86,18 @@ class RecipeController extends AbstractController
         return $this->renderForm(
                 'recipe/new.html.twig', [
                 'form' => $form,
-                'user' => $user, ]);
+                 ]);
+    }
+
+    /**
+     * @Route("/recipe/{id}/delete", name="delete")
+     */
+    public function delete(ManagerRegistry $doctrine, Recipe $recipe)
+    {
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($recipe);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('recipes');
     }
 }

@@ -28,6 +28,11 @@ class Recipe
     private $content;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ingredients;
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipes")
      */
     private $author;
@@ -103,6 +108,18 @@ class Recipe
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getIngredients(): ?string
+    {
+        return $this->ingredients;
+    }
+
+    public function setIngredients(string $ingredients): self
+    {
+        $this->ingredients = $ingredients;
 
         return $this;
     }

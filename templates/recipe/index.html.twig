@@ -4,7 +4,14 @@
 
 {% block body %}
 
+<div class="container">
+<div class="row">
 {% for recipe in recipes %}
+{% if app.user == recipe.author %}
+
+
+
+<div class="col-12 col-md-12 col-lg-4">
 
 <h1>{{recipe.title}}</h1>
 
@@ -15,7 +22,20 @@
 <a href="{{path('recipe', {'id': recipe.id}) }}" class="btn btn-primary">Voir la recette</a>
 </p>
 
+</div>
+  
+
+
+{% endif %}
 {% endfor %}
 
+</div>
+</div>
+</br>
+{% if app.user.recipes is empty %}
+
+<h1>Pas de recette ? Créez une <a href="{{path('create')}}">ici !</a></h1>
+
+{% endif %}
 
 {% endblock %}

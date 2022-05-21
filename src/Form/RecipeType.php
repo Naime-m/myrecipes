@@ -15,6 +15,7 @@ class RecipeType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('ingredients')
             ->add('content')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
