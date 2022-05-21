@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes recettes{% endblock %}
+
+{% block body %}
+
+<div class="container">
+<div class="row">
+{% for recipe in recipes %}
+{% if app.user == recipe.author %}
+
+
+
+<div class="col-12 col-md-12 col-lg-4">
+
+<h1>{{recipe.title}}</h1>
+
+<p>le {{recipe.date | date('d/m/Y')}} à {{recipe.date | date('H:i')}} dans la catégorie {{recipe.category}}</p> 
+
+<p>{{recipe.content | slice(0,35)}}
+[...] </br>
+<a href="{{path('recipe', {'id': recipe.id}) }}" class="btn btn-primary">Voir la recette</a>
+</p>
+
+</div>
+  
+
+
+{% endif %}
+{% endfor %}
+
+</div>
+</div>
+</br>
+{% if app.user.recipes is empty %}
+
+<h1>Pas de recette ? Créez une <a href="{{path('create')}}">ici !</a></h1>
+
+{% endif %}
+
+{% endblock %}
