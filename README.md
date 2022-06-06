@@ -1,3 +1,5 @@
-# myrecipes
+# MyRecipes
 
-Site où l'on peut ajouter ses propres recettes de cuisine
+Myrecipes est une application web de recettes de cuisine
+
+
